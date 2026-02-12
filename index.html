@@ -54,7 +54,7 @@
     h1{
       margin: 0;
       padding: 16px 20px;
-      font-size: 50px;
+      font-size: 36px;
       line-height: 1.2;
       font-weight: 900;
       text-align: center;
@@ -69,7 +69,7 @@
 
     .subtitle{
       margin: -2px 0 0;
-      font-size: 30px;
+      font-size: 22px;
       color: var(--muted);
       font-weight: 600;
     }
@@ -80,7 +80,7 @@
       background: white;
       border: 2px solid var(--accent2);
       border-radius: 18px;
-      font-size: 42px;
+      font-size: 28px;
       line-height: 1.5;
       font-weight: 700;
       box-shadow: var(--shadow);
@@ -99,13 +99,13 @@
       background: var(--accent);
       color: white;
       border-radius: 50%;
-      width: 52px;
-      height: 52px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 32px;
+      font-size: 24px;
       flex-shrink: 0;
       margin-right: 16px;
       margin-top: 4px;
@@ -124,7 +124,7 @@
     .uploadBtn{
       width: 100%;
       padding: 26px;
-      font-size: 29px;
+      font-size: 22px;
       border-radius: 16px;
       border: 2px solid var(--accent);
       background: linear-gradient(180deg, #ffffff, #f9f6f1);
@@ -172,7 +172,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 30px;
+      font-size: 22px;
       font-weight: 900;
       margin-bottom: 12px;
       color: var(--text);
@@ -190,7 +190,7 @@
     }
 
     .hint{
-      font-size: 30px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--muted);
       text-align: center;
@@ -262,7 +262,6 @@
       background: #f0f9ff;
     }
 
-    /* Fallback for browsers that don't support track styling */
     input[type="range"]::-webkit-slider-runnable-track {
       height: 20px;
       background: linear-gradient(to right, #60a5fa, #3b82f6);
@@ -338,7 +337,7 @@
     .downloadBtn{
       width: 100%;
       padding: 20px;
-      font-size: 30px;
+      font-size: 24px;
       border: none;
       border-radius: 18px;
       background: linear-gradient(180deg, var(--green), #1f5f1f);
@@ -398,7 +397,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Optimize for small screens */
     @media (max-height: 667px) {
       .container{ gap: 10px; padding: 10px; }
       h1{ font-size: 26px; padding: 10px 14px; }
@@ -413,7 +411,6 @@
       .previewWrap{ max-height: 30vh; }
     }
 
-    /* Very small screens */
     @media (max-height: 600px) {
       .container{ gap: 8px; padding: 8px; }
       h1{ font-size: 24px; }
@@ -506,7 +503,6 @@
   const loading = document.getElementById("loading");
   const toast = document.getElementById("toast");
 
-  // Toast notification helper
   function showToast(message, duration = 2000) {
     toast.textContent = message;
     toast.classList.add('show');
@@ -520,7 +516,6 @@
   const frameImg = new Image();
   frameImg.crossOrigin = "anonymous";
   
-  // Preload frame image with loading indicator
   loading.classList.add('show');
   frameImg.onload = () => {
     loading.classList.remove('show');
@@ -535,8 +530,6 @@
   let userImg = null;
   let scale = parseFloat(zoomSlider.value);
 
-  // Hole coordinates for landscape frame (1920x1080)
-  // Added 30px gap from top to avoid touching "आमचा गट आहे तयार!" text and logos
   const HOLE_X = 80, HOLE_Y = 240, HOLE_W = 1760, HOLE_H = 800;
 
   let offsetX = canvas.width / 2;
@@ -568,8 +561,6 @@
     }
   }
 
-  frameImg.onload = render;
-
   photoInput.onchange = () => {
     const file = photoInput.files && photoInput.files[0];
     if (!file) return;
@@ -593,7 +584,6 @@
 
     const img = new Image();
     img.onload = () => {
-      // Compress large images for better performance
       let workingImg = img;
       if (img.width > 2048 || img.height > 2048) {
         const tempCanvas = document.createElement('canvas');
