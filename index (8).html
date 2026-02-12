@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Farmer Cup 2026 - फोटो फ्रेम</title>
+
+  <style>
+    :root{
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5a5a5a;
+      --line: #e7e0d6;
+      --accent: #6b5b4b;
+      --accent2: #8a7a66;
+      --soft: #fbf8f2;
+      --green: #2d7a2d;
+      --shadow: 0 8px 24px rgba(50,40,25,0.08);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      box-sizing: border-box;
+    }
+
+    html, body{
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      position: fixed;
+    }
+
+    .container{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      gap: 12px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    h1{
+      margin: 0;
+      padding: 16px 20px;
+      font-size: 50px;
+      line-height: 1.2;
+      font-weight: 900;
+      text-align: center;
+      color: var(--green);
+      background: white;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .subtitle{
+      margin: -2px 0 0;
+      font-size: 30px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .instructions{
+      margin: 0;
+      padding: 24px 28px;
+      background: white;
+      border: 2px solid var(--accent2);
+      border-radius: 18px;
+      font-size: 42px;
+      line-height: 1.5;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .step{
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .step:last-child{ margin-bottom: 0; }
+
+    .stepNum{
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 32px;
+      flex-shrink: 0;
+      margin-right: 16px;
+      margin-top: 4px;
+    }
+
+    .uploadSection{
+      background: white;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .uploadBtn{
+      width: 100%;
+      padding: 26px;
+      font-size: 29px;
+      border-radius: 16px;
+      border: 2px solid var(--accent);
+      background: linear-gradient(180deg, #ffffff, #f9f6f1);
+      color: var(--accent);
+      font-weight: 900;
+      box-shadow: 0 3px 10px rgba(50,40,25,0.1);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .uploadBtn:active{ 
+      transform: scale(0.97); 
+    }
+
+    .fileName{
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--muted);
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #f3efe8;
+      border: 1px solid var(--line);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .fileName.success{
+      background: #e8f5e8;
+      color: var(--green);
+      border-color: var(--green);
+    }
+
+    input[type="file"]{ display:none; }
+
+    .zoomBlock{
+      padding: 16px 18px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .zoomLabel{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 30px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .zoomValue{
+      background: var(--accent);
+      color: white;
+      padding: 5px 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      min-width: 55px;
+      text-align: center;
+    }
+
+    .hint{
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    input[type="range"]{
+      width: 100%;
+      height: 60px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    input[type="range"]::-webkit-slider-track {
+      height: 20px;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      border-radius: 10px;
+      border: 3px solid #2563eb;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4), inset 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: white;
+      border: 5px solid #2563eb;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      cursor: grab;
+      margin-top: -12px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:active {
+      cursor: grabbing;
+      background: #f0f9ff;
+      transform: scale(1.05);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 20px;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      border-radius: 10px;
+      border: 3px solid #2563eb;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4), inset 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: white;
+      border: 5px solid #2563eb;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      cursor: grab;
+      border: none;
+    }
+
+    input[type="range"]::-moz-range-thumb:active {
+      background: #f0f9ff;
+    }
+
+    /* Fallback for browsers that don't support track styling */
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 20px;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      border-radius: 10px;
+      border: 3px solid #2563eb;
+    }
+
+    input[type="range"]::-moz-range-progress {
+      height: 20px;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      border-radius: 10px;
+    }
+
+    .previewWrap{
+      width: 100%;
+      border-radius: 18px;
+      border: 2px solid var(--line);
+      background: white;
+      overflow: hidden;
+      position: relative;
+      max-height: 35vh;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .previewInner{
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+    }
+
+    canvas{
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    canvas.dragging{
+      cursor: grabbing;
+    }
+
+    canvas.no-photo{
+      cursor: default;
+    }
+
+    .emptyState{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0.5;
+      line-height: 1.5;
+    }
+
+    .emptyState.hidden{
+      display: none;
+    }
+
+    .downloadBtn{
+      width: 100%;
+      padding: 20px;
+      font-size: 30px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--green), #1f5f1f);
+      color: #fff;
+      font-weight: 950;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(45, 122, 45, 0.25);
+      transition: transform 0.1s;
+      flex-shrink: 0;
+    }
+    
+    .downloadBtn:active:not(:disabled){
+      transform: scale(0.98);
+    }
+    
+    .downloadBtn:disabled{
+      background: #bcbcbc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .loading{
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 15px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .loading.show{
+      display: block;
+    }
+
+    .toast{
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: var(--accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      max-width: 85%;
+      text-align: center;
+    }
+
+    .toast.show{
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Optimize for small screens */
+    @media (max-height: 667px) {
+      .container{ gap: 10px; padding: 10px; }
+      h1{ font-size: 26px; padding: 10px 14px; }
+      .subtitle{ font-size: 15px; }
+      .instructions{ font-size: 17px; padding: 14px 16px; }
+      .stepNum{ width: 28px; height: 28px; font-size: 16px; }
+      .uploadSection{ padding: 14px; }
+      .uploadBtn{ padding: 18px; font-size: 21px; }
+      .zoomBlock{ padding: 14px 16px; }
+      .zoomLabel{ font-size: 17px; }
+      .downloadBtn{ padding: 18px; font-size: 21px; }
+      .previewWrap{ max-height: 30vh; }
+    }
+
+    /* Very small screens */
+    @media (max-height: 600px) {
+      .container{ gap: 8px; padding: 8px; }
+      h1{ font-size: 24px; }
+      .instructions{ font-size: 16px; padding: 12px 14px; }
+      .step{ margin-bottom: 8px; }
+      .uploadBtn{ padding: 16px; font-size: 20px; }
+      .downloadBtn{ padding: 16px; font-size: 20px; }
+      .previewWrap{ max-height: 28vh; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>
+      🏆 Farmer Cup 2026
+      <div class="subtitle">आमचा गट तयार आहे!</div>
+    </h1>
+
+    <div class="instructions">
+      <div class="step">
+        <div class="stepNum">1</div>
+        <div>गटाचा फोटो अपलोड करा 📸</div>
+      </div>
+      <div class="step">
+        <div class="stepNum">2</div>
+        <div>फोटो बोटाने हलवा आणि Zoom करा 🔍</div>
+      </div>
+      <div class="step">
+        <div class="stepNum">3</div>
+        <div>डाउनलोड करा आणि शेअर करा 📲</div>
+      </div>
+    </div>
+
+    <div class="uploadSection">
+      <button class="uploadBtn" id="uploadBtn" type="button">
+        📷 फोटो निवडा
+      </button>
+      <div class="fileName" id="fileName">अद्याप फोटो निवडलेला नाही</div>
+      <input type="file" id="photoInput" accept="image/*">
+    </div>
+
+    <div class="zoomBlock">
+      <div class="zoomLabel">
+        <span>🔍 Zoom</span>
+        <span class="zoomValue" id="zoomValue">1.2x</span>
+      </div>
+      <input type="range" id="zoomSlider" min="1" max="3" step="0.05" value="1.2">
+      <div class="hint">
+        👆 फोटो हलवण्यासाठी बोटाने ड्रॅग करा
+      </div>
+    </div>
+
+    <div class="previewWrap">
+      <div class="previewInner">
+        <canvas id="canvas" width="1920" height="1080"></canvas>
+        <div class="emptyState" id="emptyState">
+          📸<br>फोटो येथे दिसेल
+        </div>
+        <div class="loading" id="loading">लोड होत आहे...</div>
+      </div>
+    </div>
+
+    <button class="downloadBtn" id="downloadBtn" disabled>
+      ⬇️ फोटो डाउनलोड करा
+    </button>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const FRAME_SRC = 'frame.png';
+
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d", { 
+    alpha: false,
+    desynchronized: true,
+    willReadFrequently: false
+  });
+
+  const photoInput = document.getElementById("photoInput");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const fileNameEl = document.getElementById("fileName");
+  const zoomSlider = document.getElementById("zoomSlider");
+  const zoomValue = document.getElementById("zoomValue");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const emptyState = document.getElementById("emptyState");
+  const loading = document.getElementById("loading");
+  const toast = document.getElementById("toast");
+
+  // Toast notification helper
+  function showToast(message, duration = 2000) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
+  }
+
+  uploadBtn.onclick = () => photoInput.click();
+
+  const frameImg = new Image();
+  frameImg.crossOrigin = "anonymous";
+  
+  // Preload frame image with loading indicator
+  loading.classList.add('show');
+  frameImg.onload = () => {
+    loading.classList.remove('show');
+    render();
+  };
+  frameImg.onerror = () => {
+    loading.classList.remove('show');
+    showToast('फ्रेम लोड करण्यात त्रुटी');
+  };
+  frameImg.src = FRAME_SRC;
+
+  let userImg = null;
+  let scale = parseFloat(zoomSlider.value);
+
+  // Hole coordinates for landscape frame (1920x1080)
+  // Added 30px gap from top to avoid touching "आमचा गट आहे तयार!" text and logos
+  const HOLE_X = 80, HOLE_Y = 240, HOLE_W = 1760, HOLE_H = 800;
+
+  let offsetX = canvas.width / 2;
+  let offsetY = canvas.height / 2;
+
+  function render(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (userImg){
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(HOLE_X, HOLE_Y, HOLE_W, HOLE_H);
+      ctx.clip();
+
+      const baseScale = Math.max(HOLE_W / userImg.width, HOLE_H / userImg.height);
+      const s = baseScale * scale;
+
+      const dw = userImg.width * s;
+      const dh = userImg.height * s;
+
+      ctx.drawImage(userImg, offsetX - dw/2, offsetY - dh/2, dw, dh);
+      ctx.restore();
+    }
+
+    if (frameImg.complete) {
+      ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  frameImg.onload = render;
+
+  photoInput.onchange = () => {
+    const file = photoInput.files && photoInput.files[0];
+    if (!file) return;
+
+    loading.classList.add('show');
+    
+    if (!file.type.startsWith('image/')) {
+      showToast('कृपया फक्त फोटो निवडा');
+      loading.classList.remove('show');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('फोटो खूप मोठा आहे');
+      loading.classList.remove('show');
+      return;
+    }
+
+    fileNameEl.textContent = '✓ ' + file.name;
+    fileNameEl.classList.add('success');
+
+    const img = new Image();
+    img.onload = () => {
+      // Compress large images for better performance
+      let workingImg = img;
+      if (img.width > 2048 || img.height > 2048) {
+        const tempCanvas = document.createElement('canvas');
+        const maxSize = 2048;
+        const scale = Math.min(maxSize / img.width, maxSize / img.height);
+        tempCanvas.width = img.width * scale;
+        tempCanvas.height = img.height * scale;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+        
+        const compressedImg = new Image();
+        compressedImg.onload = () => {
+          userImg = compressedImg;
+          initializeImage();
+        };
+        compressedImg.src = tempCanvas.toDataURL('image/jpeg', 0.85);
+      } else {
+        userImg = img;
+        initializeImage();
+      }
+    };
+    
+    img.onerror = () => {
+      showToast('फोटो लोड करण्यात त्रुटी');
+      loading.classList.remove('show');
+    };
+    
+    img.src = URL.createObjectURL(file);
+  };
+
+  function initializeImage() {
+    offsetX = canvas.width / 2;
+    offsetY = canvas.height / 2;
+    scale = 1.2;
+    zoomSlider.value = scale;
+    updateZoomDisplay();
+    
+    render();
+    
+    emptyState.classList.add('hidden');
+    canvas.classList.remove('no-photo');
+    downloadBtn.disabled = false;
+    loading.classList.remove('show');
+    
+    showToast('फोटो लोड झाला! 🎉');
+  }
+
+  function updateZoomDisplay() {
+    zoomValue.textContent = scale.toFixed(1) + 'x';
+  }
+
+  zoomSlider.oninput = () => {
+    scale = parseFloat(zoomSlider.value);
+    updateZoomDisplay();
+    if (userImg) render();
+  };
+
+  let dragging = false;
+  let lastX = 0, lastY = 0;
+
+  canvas.onpointerdown = e => {
+    if (!userImg) return;
+    dragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    canvas.classList.add('dragging');
+    canvas.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  };
+
+  canvas.onpointermove = e => {
+    if (!dragging) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const dx = (e.clientX - lastX) * scaleX;
+    const dy = (e.clientY - lastY) * scaleY;
+
+    offsetX += dx;
+    offsetY += dy;
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    render();
+    e.preventDefault();
+  };
+
+  canvas.onpointerup = e => {
+    dragging = false;
+    canvas.classList.remove('dragging');
+    e.preventDefault();
+  };
+  
+  canvas.onpointercancel = e => {
+    dragging = false;
+    canvas.classList.remove('dragging');
+  };
+
+  canvas.addEventListener('touchmove', e => {
+    if (userImg) e.preventDefault();
+  }, { passive: false });
+
+  downloadBtn.onclick = () => {
+    if (!userImg) return;
+    
+    try {
+      const a = document.createElement("a");
+      a.download = "farmer_cup_2026.png";
+      a.href = canvas.toDataURL("image/png", 0.95);
+      a.click();
+      
+      showToast('फोटो डाउनलोड झाला! 📥');
+    } catch (error) {
+      showToast('डाउनलोड करण्यात त्रुटी');
+      console.error('Download error:', error);
+    }
+  };
+
+  canvas.classList.add('no-photo');
+  updateZoomDisplay();
+</script>
+</body>
+</html>
